@@ -24,8 +24,8 @@
     top: 50%;
     left: 50%;
     transform: translate(-42%, -55%);
-    width: 400px;
-    height: 417px;
+    width: 370px;
+    height: 310px;
     background: var(--main-color);
     border-radius: 10px;
 }

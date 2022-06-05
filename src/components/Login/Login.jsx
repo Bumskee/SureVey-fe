@@ -2,14 +2,18 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import './Login.css';
 
-const Login = () => {
+const Login = ({setIsAuth}) => {
     const Navigate = useNavigate();
     const state = {
         credentials: {username: '', password: '', email: ''},
     }
 
+    const userLogin = () => {
+        localStorage.setItem("isAuth", true);
+        setIsAuth(true);
+      }
+
     const login = () => {
-        console.log(state.credentials);
         fetch('http://127.0.0.1:8000/auth/', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
@@ -17,8 +21,11 @@ const Login = () => {
         })
         .then( data => data.json())
         .then(
-            data => {
-                console.log(data.token);
+            data => { 
+               if (data.token) {
+                userLogin();
+                Navigate("/");
+               } 
             }
         ).catch( error => console.error(error))
     }
@@ -60,7 +67,6 @@ const Login = () => {
                     <span></span>
                     <label>Password</label>
                 </div>
-                <div class="pass"> <a href="#">Forgot Password?</a></div>
                 <button className="login_button" onClick={login}>Login</button>
                 <div class="signup_link linkto">
                     Don't have an account? <a onClick={registerButton}>Sign up</a>

@@ -9,7 +9,6 @@
     padding: 0;
     font-family: roboto-light;
     font-weight: 500;
-    /* height: 100vh; */
 }
 
 .login_form{
@@ -23,8 +22,8 @@
     top: 50%;
     left: 50%;
     transform: translate(-42%, -55%);
-    width: 400px;
-    height: 417px;
+    width: 370px;
+    height: 365px;
     background: var(--main-color);
     border-radius: 10px;
 }

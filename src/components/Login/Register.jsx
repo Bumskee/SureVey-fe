@@ -9,8 +9,7 @@ const Register = () => {
     }
 
     const register = () => {
-        console.log(state.credentials);
-        fetch('http://127.0.0.1:8000/auth/', {
+        fetch('http://127.0.0.1:8000/api/users/', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(state.credentials)
@@ -18,7 +17,9 @@ const Register = () => {
         .then( data => data.json())
         .then(
             data => {
-                console.log(data.token);
+                if (data.password) {
+                    Navigate("/login");
+                }
             }
         ).catch( error => console.error(error))
     }
