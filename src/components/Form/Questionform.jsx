@@ -178,6 +178,32 @@ function Questionform() {
     return result;
   };
   
+  function setOptionAnswer(ans, quesNo) {
+    var Questions = [...questions];
+
+    Questions[quesNo].answerKey = ans;
+
+    setQuestions(Questions);
+    console.log(quesNo + " " + ans);
+  }
+
+  function setOptionPoints(points, quesNo) {
+    var Questions = [...questions];
+
+    Questions[quesNo].points = points;
+
+    setQuestions(Questions);
+    console.log(quesNo + " " + points);
+  }
+
+  function doneAnswer(i) {
+    var answerOfQuestion = [...questions];
+
+    answerOfQuestion[i].answer = !answerOfQuestion[i].answer;
+
+    setQuestions(answerOfQuestion)
+  }
+
   function newQuestion() {
     return questions.map((ques, i) => (
       <Draggable key={i} draggableId={i + "id"} index={i}>
@@ -270,7 +296,7 @@ function Questionform() {
                         ""
                       )}
                     </AccordionSummary>
-                    {questions[i].open ? (
+                    {!questions[i].answer ? (
                       <div className="question_boxes">
                         <AccordionDetails className="add_question">
                           <div className="add_question_top">
@@ -439,7 +465,7 @@ function Questionform() {
                               </Button>
                             </div>
 
-                            <div className="add_qustion_bottom">
+                            <div className="add_question_bottom">
                               <IconButton
                                 aria-label="Copy"
                                 onClick={() => {
