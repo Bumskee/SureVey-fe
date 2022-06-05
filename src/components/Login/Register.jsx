@@ -1,14 +1,14 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import './Login.css';
+import './Register.css';
 
-const Login = () => {
+const Register = () => {
     const Navigate = useNavigate();
     const state = {
         credentials: {username: '', password: '', email: ''},
     }
 
-    const login = () => {
+    const register = () => {
         console.log(state.credentials);
         fetch('http://127.0.0.1:8000/auth/', {
             method: 'POST',
@@ -21,10 +21,6 @@ const Login = () => {
                 console.log(data.token);
             }
         ).catch( error => console.error(error))
-    }
-
-    const registerButton = () => {
-        Navigate("/register");
     }
 
     const inputChanged = event => {
@@ -41,11 +37,11 @@ const Login = () => {
     }
 
     return (
-      <div className="Login">
-        <div class = "login_box_back"></div>
-        <div class="login_box_front">
-            <h1>Login</h1>
-            <div className="login_form">
+      <div className="Register">
+        <div class = "register_box_back"></div>
+        <div class="register_box_front">
+            <h1>Register</h1>
+            <div className="register_form">
                 <div class="txt_field">
                     <input type="text" name="username"
                      onChange={emailChange}
@@ -60,15 +56,11 @@ const Login = () => {
                     <span></span>
                     <label>Password</label>
                 </div>
-                <div class="pass"> <a href="#">Forgot Password?</a></div>
-                <button className="login_button" onClick={login}>Login</button>
-                <div class="signup_link linkto">
-                    Don't have an account? <a onClick={registerButton}>Sign up</a>
-                </div>
+                <button className="register_button" onClick={register}>Register</button>
             </div>
         </div>
       </div>
     );
   }
   
-  export default Login;
+  export default Register;
