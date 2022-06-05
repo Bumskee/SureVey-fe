@@ -122,7 +122,7 @@ function Questionform() {
           elevation={1} 
           style={{width:'100%'}}>
           
-          { questions[i].open ? (
+          { !questions[i].open ? (
 
             <div className="saved_questions">
 
@@ -131,7 +131,7 @@ function Questionform() {
                                   letterSpacing: '.1px',
                                   lineHeight:'24px',
                                   paddingBottom:"8px"}}>
-                {i+1}. {questions[i].questionText} 
+                {i+1}. {ques.questionText} 
                 </Typography>
 
                 {ques.options.map((op, j) => (
