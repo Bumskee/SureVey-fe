@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import Mainbody from "./components/Home/Mainbody";
 import Template from "./components/Home/Template";
-import Login from "./components/Login";
+import Login from "./components/Login/Login";
 import "./App.css";
 import CenterTabs from "./components/Form/Tabs";
 import Questionform from "./components/Form/Questionform";
