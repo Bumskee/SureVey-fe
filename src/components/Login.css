@@ -1,4 +1,4 @@
-/* global variables for some reocurring stuff*/
+/* global variables for some reocurring stuff */
 :root {
     --main-color: #0d6efd;
     --secondary-color: #0e55be;
@@ -152,4 +152,4 @@
     text-decoration: underline;
     font-size: 22px;
     cursor: pointer;
-}
+} 
