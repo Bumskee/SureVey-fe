@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import React from "react";
+import axios from 'axios';
 import "./Questionform.css";
 import {
   Accordion,
@@ -36,6 +37,7 @@ import {
 import { DragDropContext } from "react-beautiful-dnd";
 import { Droppable } from "react-beautiful-dnd";
 import { Draggable } from "react-beautiful-dnd";
+import { useParams } from "react-router-dom";
 
 function Questionform() {
   const [questions, setQuestions] = useState([
@@ -54,6 +56,9 @@ function Questionform() {
       required: true,
     },
   ]);
+  const [documentName, setDocName] = useState("untitled Document");
+  const [documentDesc, setDocDesc] = useState("Add Description");
+  let { id } = useParams()
 
   function changeQuestion(text, i) {
     var newQuestion = [...questions];
@@ -212,6 +217,32 @@ function Questionform() {
 
     setQuestions(answerOfQuestion)
   }
+
+  function submitToDB() {
+    // post
+    console.log([...questions])
+    fetch(`http://127.0.0.1:8000/api/form/${id}`, {
+      method: 'POST',
+      mode:'cors',
+      headers:{
+        'Accept':'application/json',
+        'Content-Type':'application/json'
+    },
+    body:JSON.stringify({
+        "DocumentName" : documentName,
+        "DocumentDesc" : documentDesc,
+        "DocumentQuests" : questions,
+    })
+})
+.then(res=>res.json())
+.then((result)=>{
+    alert(result);
+},
+(error)=>{
+    alert('Failed');
+})
+}
+  
 
   function newQuestion() {
     return questions.map((ques, i) => (
@@ -589,11 +620,13 @@ function Questionform() {
                 className="question_form_top_name"
                 style={{ color: "black" }}
                 placeholder="Untitled document"
+                onChange={(event)=>{setDocName(event.target.value)}}
               />
               <input
                 type="text"
                 className="question_form_top_desc"
                 placeholder="Form Description"
+                onChange={(event)=>{setDocDesc(event.target.value)}}
               />
             </div>
           </div>
@@ -608,6 +641,9 @@ function Questionform() {
               )}
             </Droppable>
           </DragDropContext>
+          <div className="save_form">
+            <Button variant="contained" color="primary" onClick={submitToDB} style={{fontSize:"14px"}}>Save</Button>
+          </div>
         </div>
       </div>
     </div>
