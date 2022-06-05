@@ -1,11 +1,78 @@
-import React from "react";
+import React, {useRef, useState} from "react";
 import { useNavigate } from "react-router-dom";
 import './Register.css';
+import Camera from './Camera'
+import CameraAltIcon from '@mui/icons-material/CameraAlt';
 
 const Register = () => {
+
+    const videoRef = useRef(null);
+    const photoRef = useRef(null);
+
+    const [hasPhoto, setHasPhoto] = useState(false);
+
+    const getVideo = () => {
+        navigator.mediaDevices.getUserMedia({
+            video: { width:1920, height:1080 }
+        })
+        .then(stream => {
+            let video = videoRef.current;
+            video.srcObject = stream;
+            video.play();
+        })
+        .catch(err=>{
+            console.error(err);
+        })
+    }
+
+    const takePhoto = () => {
+        const width = 720;
+        const height = width / (16/9);
+
+        let video = videoRef.current;
+        let photo = photoRef.current;
+
+        photo.width = width;
+        photo.height = height;
+
+        let ctx = photo.getContext('2d');
+        ctx.drawImage(video, 0, 0, width, height);
+        setHasPhoto(true);
+        console.log(typeof video);
+    }
+
+    const retakePhoto = () => {
+        let photo = photoRef.current;
+        let ctx = photo.getContext('2d');
+
+        ctx.clearRect(0, 0, photo.width, photo.height);
+        setHasPhoto(false);
+    }
+
+    const savePhoto = () => {
+        setOpenCam(false);
+        retakePhoto();
+    }
+
+    // useEffect(() => {
+    //     const onPageLoad = () => {
+    //         getVideo();
+    //     };
+
+    //     if (document.readyState === 'complete') {
+    //         onPageLoad();
+    //     } else {
+    //         window.addEventListener("load", onPageLoad);
+    //         return () => window.removeEventListener("load", onPageLoad);
+    //     }
+    // }, [videoRef])
+
     const Navigate = useNavigate();
+
+    const [openCam, setOpenCam] = useState(false);
+
     const state = {
-        credentials: {username: '', password: '', email: ''},
+        credentials: {username: '', password: '', email: '', image:''},
     }
 
     const register = () => {
@@ -37,6 +104,12 @@ const Register = () => {
         state.credentials = cred;
     }
 
+    const cam_button_clicked = () => {
+        setOpenCam(true);
+        getVideo();
+        retakePhoto();
+    }
+
     return (
       <div className="Register">
         <div class = "register_box_back"></div>
@@ -57,9 +130,16 @@ const Register = () => {
                     <span></span>
                     <label>Password</label>
                 </div>
-                <button className="register_button" onClick={register}>Register</button>
+                <div className="register-cam">
+                <button className="open_cam_button" onClick={cam_button_clicked}><CameraAltIcon style={{ color: "white" }} /></button>
+                    <button className="register_button" onClick={register}>Register</button>
+                </div>
             </div>
-        </div>
+        </div> 
+        <Camera trigger={openCam} setTrigger={setOpenCam} videoRef={videoRef} takePhoto={takePhoto}
+        hasPhoto={hasPhoto} photoRef={photoRef} retakePhoto={retakePhoto} savePhoto={savePhoto}>
+            <h3>Camera</h3>
+        </Camera>
       </div>
     );
   }

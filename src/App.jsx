@@ -4,7 +4,7 @@ import Mainbody from "./components/Home/Mainbody";
 import Template from "./components/Home/Template";
 import Login from "./components/Login/Login";
 import Register from "./components/Login/Register";
-import Test from "./components/Tests/Test"
+import Test from "./components/Tests/Test";
 import "./App.css";
 import CenterTabs from "./components/Form/Tabs";
 import Questionform from "./components/Form/Questionform";

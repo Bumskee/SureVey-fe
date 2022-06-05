@@ -5,7 +5,7 @@ import "./Template.css"
 import survey from "../../images/template-form.png"
 import blank from "../../images/blank02.png"
 import uuid from "react-uuid"
-import { Navigate, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 
 function Template() {
   

@@ -1,0 +1,61 @@
+.Cam-Background{
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+}
+
+.Camera-app{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 999;
+}
+
+.camscreen{
+    width: 720px;
+    height: 405px;
+}
+
+.result {
+    position: fixed;
+    top: 0;
+    left: 300%;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    transition: 0.4s;
+}
+
+.result.hasPhoto{
+    left: 0;
+}
+
+.camButton{
+    position: absolute;
+    
+    bottom: 10px;
+    left: 10px;
+
+    background: var(--main-color);
+    appearance: none;
+    border: none;
+    outline: none;
+
+    padding: 8px 16px;
+
+    font-size: 18px;
+    color: #e9f4fb;
+    font-weight: 700;
+}
+
+.camButton:hover{
+    background-color: var(--secondary-color);
+    transition: .5s
+}
+
+.save {
+    margin-left: 115px;
+}
