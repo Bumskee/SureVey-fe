@@ -1,9 +1,10 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import Mainbody from "./components/Mainbody";
-import Template from "./components/Template";
-import Formheader from './components/Formheader'
+import Mainbody from "./components/Home/Mainbody";
+import Template from "./components/Home/Template";
 import "./App.css";
+import CenterTabs from "./components/Form/Tabs";
+import Questionform from "./components/Form/Questionform";
 
 const App = () => {
   return (
@@ -18,7 +19,12 @@ const App = () => {
               <Mainbody />
             </div>
             } />
-            <Route path="/form/:id" element={<Formheader />}>
+            <Route path="/form/:id" element={
+            <div>
+            <CenterTabs />
+            <Questionform />
+            </div>
+            }>
             
             </Route>
         </Routes>

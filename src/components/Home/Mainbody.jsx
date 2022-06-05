@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import "./Mainbody.css"
-import data from "../data/mock-data.json"
+import data from "../../data/mock-data.json"
 
 export default function Mainbody() {
 

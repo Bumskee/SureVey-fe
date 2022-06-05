@@ -2,8 +2,8 @@ import { MoreVert } from '@mui/icons-material'
 import { IconButton } from '@mui/material'
 import React from 'react'
 import "./Template.css"
-import survey from "../images/template-form.png"
-import blank from "../images/blank02.png"
+import survey from "../../images/template-form.png"
+import blank from "../../images/blank02.png"
 import uuid from "react-uuid"
 import { Navigate, useNavigate } from "react-router-dom"
 
