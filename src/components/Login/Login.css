@@ -4,13 +4,13 @@
     --secondary-color: #0e55be;
   }
   
-  body{
+  .Login{
     margin: 0;
     padding: 0;
     font-family: roboto-light;
     font-weight: 500;
     height: 100vh;
-    overflow: hidden;
+    
 }
 
 .login_form{

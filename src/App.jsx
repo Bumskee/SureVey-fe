@@ -2,7 +2,8 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import Mainbody from "./components/Home/Mainbody";
 import Template from "./components/Home/Template";
-import Login from "./components/Login";
+import Login from "./components/Login/Login";
+import Register from "./components/Login/Register";
 import "./App.css";
 import CenterTabs from "./components/Form/Tabs";
 import Questionform from "./components/Form/Questionform";
@@ -29,6 +30,7 @@ const App = () => {
             }>
             </Route>
             <Route path="/login" element={<Login/>}/>
+            <Route path="/register" element={<Register/>}/>
         </Routes>
     </Router>
   );
