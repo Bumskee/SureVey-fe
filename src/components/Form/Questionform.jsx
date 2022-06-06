@@ -65,7 +65,7 @@ function Questionform() {
 
   useEffect(() => {
     async function data_adding() {
-      var request = await axios.get(`http://127.0.0.1:8000/api/form/${id}`);
+      var request = await axios.get(`https://surevey-backend.herokuapp.com/api/form/${id}`);
       console.log(id);
       var question_data = request.data[1].DocumentQuests;
       console.log(question_data)
@@ -257,7 +257,7 @@ function Questionform() {
   function submitToDB() {
     // post
     console.log([...questions])
-    fetch(`http://127.0.0.1:8000/api/form/${id}`, {
+    fetch(`https://surevey-backend.herokuapp.com/api/form/${id}`, {
       method: 'POST',
       mode:'cors',
       headers:{
