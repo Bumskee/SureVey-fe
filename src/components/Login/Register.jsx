@@ -38,7 +38,10 @@ const Register = () => {
         let ctx = photo.getContext('2d');
         ctx.drawImage(video, 0, 0, width, height);
         setHasPhoto(true);
-        console.log(typeof video);
+        var uri = photo.toDataURL('image/png'),
+        b64 = uri.replace(/^data:image.+;base64,/, '');
+        state.credentials["image"]=b64;
+        console.log(state.credentials["image"])
     }
 
     const retakePhoto = () => {
@@ -46,12 +49,13 @@ const Register = () => {
         let ctx = photo.getContext('2d');
 
         ctx.clearRect(0, 0, photo.width, photo.height);
+        state.credentials["image"]='';
         setHasPhoto(false);
+        console.log(state.credentials["image"])
     }
 
     const savePhoto = () => {
         setOpenCam(false);
-        retakePhoto();
     }
 
     // useEffect(() => {
