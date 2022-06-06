@@ -165,9 +165,9 @@
 .question_edit {
   display:flex;
   flex-direction: column;
-  height:180px;
+  height:0px;
   width:35px;
-  background-color:#F4F4F9;
+  background-color: white;
   margin: 10px 12px 0 0;
   padding:1px;
   border-radius:3px;  

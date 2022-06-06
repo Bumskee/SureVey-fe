@@ -25,11 +25,11 @@ function Template() {
         <div className='template_left'>
           <span style={{fontsize:'16px', color:'#202124'}}>Start a New Form</span>
         </div>
-        <div className='template_right'>
-          <IconButton>
-            <MoreVert />
-          </IconButton>
-        </div>
+        {/* <div className='template_right'> */}
+          {/* <IconButton> */}
+            {/* <MoreVert /> */}
+          {/* </IconButton> */}
+        {/* </div> */}
         
       </div>
       <div className='template_body'>

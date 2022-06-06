@@ -38,8 +38,12 @@ import { DragDropContext } from "react-beautiful-dnd";
 import { Droppable } from "react-beautiful-dnd";
 import { Draggable } from "react-beautiful-dnd";
 import { useParams } from "react-router-dom";
+import { useStateValue } from '../StateProvider'
+import {actionTypes} from '../reducer'
 
 function Questionform() {
+  let { id } = useParams()
+  const [{}, dispatch] = useStateValue()
   const [questions, setQuestions] = useState([
     {
       questionText: "Is cereal soup?",
@@ -58,7 +62,39 @@ function Questionform() {
   ]);
   const [documentName, setDocName] = useState("untitled Document");
   const [documentDesc, setDocDesc] = useState("Add Description");
-  let { id } = useParams()
+
+  useEffect(() => {
+    async function data_adding() {
+      var request = await axios.get(`http://127.0.0.1:8000/api/form/${id}`);
+      console.log(id);
+      var question_data = request.data[1].DocumentQuests;
+      console.log(question_data)
+      var doc_name = request.data[0].DocumentName;
+      console.log(doc_name)
+      var doc_desc = request.data[0].DocumentDesc;
+      console.log(doc_desc)
+      setDocName(doc_name);
+      setDocDesc(doc_desc);
+      setQuestions(question_data);
+      dispatch({
+        type: actionTypes.SET_DOC_NAME,
+        doc_name: doc_name
+
+     }) 
+
+      dispatch({
+        type: actionTypes.SET_DOC_DESC,
+        doc_desc: doc_desc
+
+   })
+      dispatch({
+          type: actionTypes.SET_QUESTIONS,
+          questions:question_data
+
+       })
+    }
+    data_adding()
+  }, [])
 
   function changeQuestion(text, i) {
     var newQuestion = [...questions];
@@ -229,20 +265,20 @@ function Questionform() {
         'Content-Type':'application/json'
     },
     body:JSON.stringify({
+        "DocumentID" : id,
         "DocumentName" : documentName,
         "DocumentDesc" : documentDesc,
         "DocumentQuests" : questions,
     })
-})
-.then(res=>res.json())
-.then((result)=>{
-    alert(result);
-},
-(error)=>{
-    alert('Failed');
-})
-}
-  
+    })
+    .then(res=>res.json())
+    .then((result)=>{
+      alert(result);
+      },
+      (error)=>{
+        alert('Failed');
+      })
+  }
 
   function newQuestion() {
     return questions.map((ques, i) => (
@@ -352,7 +388,7 @@ function Questionform() {
                                   changeQuestion(event.target.value, i);
                                 }}
                               />
-                              <CropOriginal style={{ color: "#5f6368" }} />
+                              {/* <CropOriginal style={{ color: "#5f6368" }} /> */}
                               <Select
                                 className="select"
                                 style={{ color: "#5f6368", fontSize: "13px" }}
@@ -423,7 +459,7 @@ function Questionform() {
                                     }}
                                   />
                                 </div>
-                                <CropOriginal style={{ color: "#5f6368" }} />
+                                {/* <CropOriginal style={{ color: "#5f6368" }} /> */}
                                 <IconButton aria-label="delete">
                                   <Close
                                     onClick={() => {
@@ -459,7 +495,7 @@ function Questionform() {
                                   }
                                   label={
                                     <div>
-                                      <input
+                                      {/* <input
                                         type="text"
                                         className="text_input"
                                         style={{
@@ -467,7 +503,7 @@ function Questionform() {
                                           width: "60px",
                                         }}
                                         placeholder="Add other"
-                                      ></input>
+                                      ></input> */}
                                       <Button
                                         size="small" 
                                         style={{
@@ -506,14 +542,14 @@ function Questionform() {
                                 </Button>
                               </div>
                               <div className="add_question_bottom">
-                                <IconButton
+                                {/* <IconButton
                                   aria-label="Copy"
                                   onClick={() => {
                                     copyQuestion(i);
                                   }}
-                                >
-                                  <FilterNone />
-                                </IconButton>
+                                > */}
+                                  {/* <FilterNone /> */}
+                                {/* </IconButton> */}
                                 <IconButton
                                   aria-label="Delete"
                                   onClick={() => {
@@ -535,9 +571,9 @@ function Questionform() {
                                   }}
                                   checked={ques.required}
                                 />
-                                <IconButton>
-                                  <MoreVert />
-                                </IconButton>
+                                {/* <IconButton> */}
+                                  {/* <MoreVert /> */}
+                                {/* </IconButton> */}
                               </div>
                             </div>
                           </div>
@@ -594,9 +630,9 @@ function Questionform() {
                             className="edit"
                             onClick={addMoreQuestionField}
                           />
-                          <OndemandVideo className="edit" />
-                          <CropOriginal className="edit" />
-                          <TextFields className="edit" />
+                          {/* <OndemandVideo className="edit" /> */}
+                          {/* <CropOriginal className="edit" /> */}
+                          {/* <TextFields className="edit" /> */}
                         </div>) : "" }
                       </div>
                   </Accordion>

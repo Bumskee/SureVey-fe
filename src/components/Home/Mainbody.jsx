@@ -1,10 +1,26 @@
 import React, { useState } from 'react'
 import "./Mainbody.css"
+import { useNavigate } from "react-router-dom";
 import data from "../../data/mock-data.json"
 
-export default function Mainbody() {
+import axios from "axios"
+import { Button } from '@mui/material'
 
-  const [forms, setFoms] = useState(data)
+export default function Mainbody() {
+  const Navigate = useNavigate()
+  const [forms, setForms] = useState(data)
+
+  async function allForms() {
+    // GET
+    var request = await axios.get("http://127.0.0.1:8000/api/get_all_forms")
+    let filename = request.data;
+    setForms(filename)
+    console.log(filename[0].DocumentID)
+  }
+
+  function navigateTo(id) {
+    Navigate("/form/" + id)
+  }
 
   return (
     <div className="mainbody">
@@ -21,23 +37,28 @@ export default function Mainbody() {
               <tr>
                 <th>Form Title</th>
                 <th>Date Created</th>
-                <th>No. of Responses</th>
+                {/* <th>No. of Responses</th> */}
                 {/* <th></th> */}
               </tr>
             </thead>
             <tbody>
               {forms.map((form) => (
                 <tr>
-                  <td>{form.title}</td>
-                  <td>{form.date}</td>
-                  <td>{form.responses}</td>
+                  <td>{form.DocumentName}</td>
+                  <td>{form.DocumentDesc}</td>
+                  {/* <td>{form.responses}</td> */}
+                  <td>
+                    <button type="button" onClick={()=>navigateTo(form.DocumentID)}>Edit</button>
+                  </td>
                 </tr>
               ))}
               
             </tbody>
           </table>
         </div>
-
+        <div className='refresh_button'>
+          <Button onClick={()=> (allForms())}>Refresh</Button>
+        </div>
       </div>
     </div>
   )
