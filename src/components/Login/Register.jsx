@@ -76,7 +76,7 @@ const Register = () => {
     const [openCam, setOpenCam] = useState(false);
 
     const state = {
-        credentials: {username: '', password: '', email: '', image:''},
+        credentials: {id: null, username: '', password: '', email: '', image:''},
     }
 
     const register = () => {
