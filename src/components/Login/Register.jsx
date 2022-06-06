@@ -87,8 +87,8 @@ const Register = () => {
         })
         .then( res => res.json())
         .then(
-            (result) => {
-                alert(result);
+            () => {
+                Navigate("/");
             }
         ).catch( error => console.error(error))
     }
