@@ -88,6 +88,7 @@ const Register = () => {
         .then( data => data.json())
         .then(
             data => {
+                console.log(data);
                 if (data.password) {
                     Navigate("/login");
                 }
