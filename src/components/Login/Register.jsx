@@ -85,7 +85,7 @@ const Register = () => {
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(state.credentials)
         })
-        .then( res => data.json())
+        .then( res => res.json())
         .then(
             (result) => {
                 alert(result);
