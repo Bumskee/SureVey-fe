@@ -85,13 +85,10 @@ const Register = () => {
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(state.credentials)
         })
-        .then( data => data.json())
+        .then( res => data.json())
         .then(
-            data => {
-                console.log(data);
-                if (data.password) {
-                    Navigate("/login");
-                }
+            (result) => {
+                alert(result);
             }
         ).catch( error => console.error(error))
     }
