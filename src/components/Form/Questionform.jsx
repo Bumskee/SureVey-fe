@@ -12,7 +12,6 @@ import {
   MenuItem,
   Radio,
   Select,
-  Stack,
   Switch,
   Typography,
 } from "@mui/material";
@@ -20,18 +19,11 @@ import {
   ArrowRight,
   CheckBox,
   Close,
-  CropOriginal,
   ShortText,
   Subject,
-  FilterNone,
-  MoreVert,
   DeleteOutline,
   AddCircleOutline,
-  OndemandVideo,
-  TextFields,
-  PersonalVideoRounded,
   DragIndicator,
-  FlareSharp,
   Article,
 } from "@mui/icons-material";
 import { DragDropContext } from "react-beautiful-dnd";

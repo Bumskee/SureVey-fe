@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import "./Mainbody.css"
 import { useNavigate } from "react-router-dom";
 import data from "../../data/mock-data.json"
@@ -21,6 +21,10 @@ export default function Mainbody() {
   function navigateTo(id) {
     Navigate("/form/" + id)
   }
+
+  useEffect(() => {
+    allForms();
+  }, [])
 
   return (
     <div className="mainbody">
