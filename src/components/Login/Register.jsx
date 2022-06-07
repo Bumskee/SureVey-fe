@@ -76,21 +76,19 @@ const Register = () => {
     const [openCam, setOpenCam] = useState(false);
 
     const state = {
-        credentials: {username: '', password: '', email: '', image:''},
+        credentials: {id: null, username: '', password: '', email: '', image:''},
     }
 
     const register = () => {
-        fetch('http://127.0.0.1:8000/api/users/', {
+        fetch('https://surevey-backend.herokuapp.com/api/users/', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(state.credentials)
         })
-        .then( data => data.json())
+        .then( res => res.json())
         .then(
-            data => {
-                if (data.password) {
-                    Navigate("/login");
-                }
+            () => {
+                Navigate("/");
             }
         ).catch( error => console.error(error))
     }

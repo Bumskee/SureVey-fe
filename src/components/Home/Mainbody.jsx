@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import "./Mainbody.css"
 import { useNavigate } from "react-router-dom";
 import data from "../../data/mock-data.json"
@@ -12,7 +12,7 @@ export default function Mainbody() {
 
   async function allForms() {
     // GET
-    var request = await axios.get("http://127.0.0.1:8000/api/get_all_forms")
+    var request = await axios.get("https://surevey-backend.herokuapp.com/api/get_all_forms")
     let filename = request.data;
     setForms(filename)
     // console.log(filename[0].DocumentID)
@@ -22,6 +22,10 @@ export default function Mainbody() {
     Navigate("/form/" + id)
     console.log(id)
   }
+
+  useEffect(() => {
+    allForms();
+  }, [])
 
   return (
     <div className="mainbody">
