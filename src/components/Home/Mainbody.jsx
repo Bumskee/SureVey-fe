@@ -15,11 +15,12 @@ export default function Mainbody() {
     var request = await axios.get("http://127.0.0.1:8000/api/get_all_forms")
     let filename = request.data;
     setForms(filename)
-    console.log(filename[0].DocumentID)
+    // console.log(filename[0].DocumentID)
   }
 
   function navigateTo(id) {
     Navigate("/form/" + id)
+    console.log(id)
   }
 
   return (
