@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import './Register.css';
 import Camera from './Camera'
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
+import { nodeflux_auth, nodefluxFaceMatch } from "../nodeflux/nodeflux"
 
 const Register = () => {
 
@@ -38,10 +39,9 @@ const Register = () => {
         let ctx = photo.getContext('2d');
         ctx.drawImage(video, 0, 0, width, height);
         setHasPhoto(true);
-        var uri = photo.toDataURL('image/png'),
-        b64 = uri.replace(/^data:image.+;base64,/, '');
+        var b64 = photo.toDataURL('image/jpeg')
         state.credentials["image"]=b64;
-        console.log(state.credentials["image"])
+        console.log(b64);
     }
 
     const retakePhoto = () => {
@@ -49,27 +49,14 @@ const Register = () => {
         let ctx = photo.getContext('2d');
 
         ctx.clearRect(0, 0, photo.width, photo.height);
-        state.credentials["image"]='';
+        state.credentials["image"]=null;
         setHasPhoto(false);
-        console.log(state.credentials["image"])
     }
 
     const savePhoto = () => {
         setOpenCam(false);
+        setHasPhoto(false);
     }
-
-    // useEffect(() => {
-    //     const onPageLoad = () => {
-    //         getVideo();
-    //     };
-
-    //     if (document.readyState === 'complete') {
-    //         onPageLoad();
-    //     } else {
-    //         window.addEventListener("load", onPageLoad);
-    //         return () => window.removeEventListener("load", onPageLoad);
-    //     }
-    // }, [videoRef])
 
     const Navigate = useNavigate();
 
@@ -77,6 +64,41 @@ const Register = () => {
 
     const state = {
         credentials: {id: null, username: '', password: '', email: '', image:''},
+    }
+
+    const testButtonClicked = async (a) => {
+        a.preventDefault();
+        let auth = await nodeflux_auth();
+
+
+        const doSomething = delay_amount_ms =>
+            new Promise(resolve => setTimeout(() => resolve("delay"), delay_amount_ms))
+
+        const loop = async () => {
+            // set loading to true here
+            let status;
+            let result;
+            while (['success', 'incompleted'].includes(status) !== true) {
+                result = await nodefluxFaceMatch({
+                    "auth_key": auth.auth_key,
+                    "timestamp": auth.timestamp
+                }, state.credentials["image"], state.credentials["image"])
+                status = result.response.job.result.status
+                await doSomething(100)
+                console.log(status)
+            }
+
+            console.log(result) // DISABLE LATER
+            if (result.response.message === "No face detected") {
+                alert("No face detected in your captured photo");
+            } else if (result.response.message === "Face Match Success") {
+                console.log(result.job.result.result.face_match.match);
+            } else {
+                alert(result.response.message)
+            }
+        }
+
+        await loop().then(() => {alert("success boi")});
     }
 
     const register = () => {
@@ -109,7 +131,6 @@ const Register = () => {
     const cam_button_clicked = () => {
         setOpenCam(true);
         getVideo();
-        retakePhoto();
     }
 
     return (
@@ -142,6 +163,7 @@ const Register = () => {
         hasPhoto={hasPhoto} photoRef={photoRef} retakePhoto={retakePhoto} savePhoto={savePhoto}>
             <h3>Camera</h3>
         </Camera>
+        <button onClick={testButtonClicked}>testcalllmao</button>
       </div>
     );
   }
