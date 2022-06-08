@@ -8,10 +8,10 @@ export const nodeflux_auth = async () => {
         headers: {
             "Content-Type": "application/json"
         },
-        body: {
+        body: JSON.stringify({
             "access_key": ACCESS_KEY,
             "secret_key": SECRET_KEY
-        }
+        })
     }).then(response => {
         console.log(response.json())
         return response

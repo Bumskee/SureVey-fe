@@ -13,8 +13,7 @@ const nodeflux_face_match = {
 
 module.exports = function(app) {
   app.use(
-    '/auth/signatures',
-    createProxyMiddleware(nodeflux_auth)
+    createProxyMiddleware('/auth/signatures', nodeflux_auth)
   );
 
   app.use(
