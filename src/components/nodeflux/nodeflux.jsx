@@ -13,12 +13,9 @@ export const nodeflux_auth = async () => {
             "secret_key": SECRET_KEY
         })
     }).then(response => {
-        console.log(response.json())
-        return response
+        console.log(response.text());
+        return response.json();
     }).then(authorization => {
-        console.log("promise berhasil guys")
-        authorization = JSON.parse(JSON.stringify(authorization))
-        console.log(authorization)
         const DATE = authorization.headers['x-nodeflux-timestamp'].slice(0, 8)
         const TOKEN = authorization.token
         return {

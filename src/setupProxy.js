@@ -1,3 +1,4 @@
+
 const { createProxyMiddleware } = require('http-proxy-middleware');
 
 
@@ -11,13 +12,13 @@ const nodeflux_face_match = {
   changeOrigin: true
 }
 
+
 module.exports = function(app) {
   app.use(
-    createProxyMiddleware('/auth/signatures', nodeflux_auth)
+    "/auth/signatures", createProxyMiddleware(nodeflux_auth)
   );
-
+  
   app.use(
-    '/v1/analytics/face-match',
-    createProxyMiddleware(nodeflux_face_match)
-  )
-};
+    "/v1/analytics/face-match", createProxyMiddleware(nodeflux_face_match)
+  );  
+}
