@@ -8,6 +8,7 @@ import Test from "./components/Tests/Test";
 import "./App.css";
 import CenterTabs from "./components/Form/Tabs";
 import Questionform from "./components/Form/Questionform";
+import UserForm from "./components/UserForm/UserForm";
 
 const App = () => {
 
@@ -32,6 +33,10 @@ const App = () => {
             <CenterTabs />
             <Questionform />
             </div>
+            }>
+            </Route>
+            <Route path = "/response" element={
+              <UserForm />
             }>
             </Route>
             <Route path="/login" element={< Login setIsAuth={setIsAuth} />}/>

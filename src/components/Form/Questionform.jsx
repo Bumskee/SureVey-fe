@@ -416,7 +416,7 @@ function Questionform() {
                     </AccordionSummary>
 
                     <div className="question_boxes">
-                      {!questions[i].answer ? (
+                      {!ques.answer ? (
                         <AccordionDetails className="add_question">
                           <div>
                             <div className="add_question_top">
@@ -429,12 +429,11 @@ function Questionform() {
                                   changeQuestion(event.target.value, i);
                                 }}
                               />
-                              {/* <CropOriginal style={{ color: "#5f6368" }} /> */}
                               <Select
                                 className="select"
                                 style={{ color: "#5f6368", fontSize: "13px" }}
                               >
-                                <MenuItem
+                                {/* <MenuItem
                                   id="text"
                                   value="Text"
                                   onClick={() => {
@@ -446,7 +445,8 @@ function Questionform() {
                                     style={{ marginRight: "10px" }}
                                   />{" "}
                                   Paragraph
-                                </MenuItem>
+                                </MenuItem> */ 
+                                /* removed this because its annoying to use paragraph */}
                                 <MenuItem
                                   id="checkbox"
                                   value="Checkbox"
@@ -481,17 +481,24 @@ function Questionform() {
                                 </MenuItem>
                               </Select>
                             </div>
-                            {ques.options.map((op, j) => (
+                            {ques?.options.length > 0 &&
+                            ques.options.map((op, j) => (
                               <div className="add_question_body" key={j}>
+                                <div
+                                  style={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                  }}
+                                >
                                 {ques.questionType != "text" ? (
                                   <input
+                                    // className="question_text_input"
                                     type={ques.questionType}
                                     style={{ marginRight: "10px" }}
                                   />
                                 ) : (
                                   <ShortText style={{ marginRight: "10px" }} />
                                 )}
-                                <div>
                                   <input
                                     type="text"
                                     className="text_input"
@@ -505,15 +512,20 @@ function Questionform() {
                                       );
                                     }}
                                   />
-                                </div>
+                                  </div>
+                                  <div
+                                  style={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                  }}
+                                >
                                 {/* <CropOriginal style={{ color: "#5f6368" }} /> */}
-                                <IconButton aria-label="delete">
-                                  <Close
-                                    onClick={() => {
+                                <IconButton aria-label="delete" onClick={() => {
                                       removeOption(i, j);
-                                    }}
-                                  />
+                                    }}>
+                                  <Close/>
                                 </IconButton>
+                              </div>
                               </div>
                             ))}
                             {ques.options.length < 5 ? (
@@ -550,7 +562,8 @@ function Questionform() {
                                           width: "60px",
                                         }}
                                         placeholder="Add other"
-                                      ></input> */}
+                                      ></input> */
+                                      /* not working */}
                                       <Button
                                         size="small"
                                         style={{
@@ -576,6 +589,7 @@ function Questionform() {
                               <div className="add_question_bottom_left">
                                 <Button
                                   size="small"
+                                  className="leftPadding"
                                   style={{
                                     textTransform: "none",
                                     color: "#4285f4",
@@ -586,13 +600,14 @@ function Questionform() {
                                     addAnswer(i);
                                   }}
                                 >
-                                  Answer key
+                                  {" "}
                                   <ArrowRight
                                     style={{
                                       padding: "2px",
                                       marginRight: "8px",
                                     }}
-                                  />
+                                  />{" "}
+                                  Answer Key
                                 </Button>
                               </div>
                               <div className="add_question_bottom">
@@ -606,17 +621,22 @@ function Questionform() {
                                 {/* </IconButton> */}
                                 <IconButton
                                   aria-label="Delete"
+                                  data-toggle="tooltip"
+                                  data-placement="top"
+                                  title={"Delete question"}
                                   onClick={() => {
                                     deleteQuestion(i);
                                   }}
                                 >
                                   <DeleteOutline />
                                 </IconButton>
+                                <div>
                                 <span
                                   style={{ color: "#5f6368", fontSize: "13px" }}
                                 >
-                                  Required
+                                  Required {" "}
                                 </span>
+                                {" "}
                                 <Switch
                                   name="checkedA"
                                   color="primary"
@@ -625,6 +645,7 @@ function Questionform() {
                                   }}
                                   checked={ques.required}
                                 />
+                                </div>
                                 {/* <IconButton> */}
                                 {/* <MoreVert /> */}
                                 {/* </IconButton> */}
@@ -755,6 +776,9 @@ function Questionform() {
                         <div className="question_edit">
                           <AddCircleOutline
                             className="edit"
+                            data-toggle="tooltip"
+                            data-placement="top"
+                            title={"Add question"}
                             onClick={addMoreQuestionField}
                           />
                           {/* <OndemandVideo className="edit" /> */}
@@ -794,7 +818,11 @@ function Questionform() {
               <input
                 type="text"
                 className="question_form_top_desc"
-                placeholder="Form Description"
+                placeholder={
+                  documentDesc
+                    ? documentDesc
+                    : "Document description"
+                }
                 value={documentDesc}
                 onChange={(event) => {
                   setDocDesc(event.target.value);

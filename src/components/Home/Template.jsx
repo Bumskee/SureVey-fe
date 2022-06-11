@@ -35,12 +35,12 @@ function Template() {
       <div className='template_body'>
         <div className='card' onClick={createForm}>
           <img src={blank} alt='no image' className='card_image'/>
-          <p className='card_title'>Blank</p>
+          <p className='card_title'>Create new form</p>
         </div>
-        <div className='card'>
+        {/* <div className='card'>
           <img src={survey} alt='no image' className='card_image'/>
           <p className='card_title'>Survey</p>
-        </div>
+        </div> */}
       </div>
     </div>
   )
