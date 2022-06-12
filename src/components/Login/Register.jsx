@@ -103,12 +103,12 @@ const Register = () => {
     }
 
     const register = () => {
-        fetch('http://127.0.0.1:8000/api/users/', {
+        fetch('https://surevey-backend.herokuapp.com/api/users/', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(
                 {
-                    "id": null,
+                    "id":null,
                     "email": email,
                     "image": base64,
                     "password": password,
