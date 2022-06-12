@@ -5,6 +5,7 @@ import data from "../../data/mock-data.json"
 
 import axios from "axios"
 import { Button } from '@mui/material'
+import { Delete, DeleteOutline, Edit, EditOutlined } from '@mui/icons-material';
 
 export default function Mainbody() {
   const Navigate = useNavigate()
@@ -50,6 +51,7 @@ export default function Mainbody() {
               <tr>
                 <th>Form Title</th>
                 <th>Description</th>
+                <th>Actions</th>
                 {/* <th>No. of Responses</th> */}
                 {/* <th></th> */}
               </tr>
@@ -61,8 +63,8 @@ export default function Mainbody() {
                   <td>{form.DocumentDesc}</td>
                   {/* <td>{form.responses}</td> */}
                   <td>
-                    <Button type="button" onClick={()=>navigateTo(form.DocumentID)} style={ {backgroundColor: "orange", color: "red", margin: 1, marginRight: 4 } } >Edit</Button>
-                    <Button type="button" onClick={()=>removeDoc(form.DocumentID)}style={ {backgroundColor: "red", color: "white" } } >Delete</Button>
+                    <Edit type="button" onClick={()=>navigateTo(form.DocumentID)} style={ {margin: 1, marginRight: 4, paddingLeft: 20 } } />
+                    <DeleteOutline type="button" onClick={()=>removeDoc(form.DocumentID)} style={ {margin: 1, paddingLeft: 20} } />
                   </td>
                 </tr>
               ))}
