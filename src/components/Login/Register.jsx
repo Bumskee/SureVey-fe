@@ -9,8 +9,14 @@ const Register = () => {
 
     const videoRef = useRef(null);
     const photoRef = useRef(null);
+    const [base64, setBase64] = useState(null);
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    
 
     const [hasPhoto, setHasPhoto] = useState(false);
+    const Navigate = useNavigate();
+    const [openCam, setOpenCam] = useState(false);
 
     const getVideo = () => {
         navigator.mediaDevices.getUserMedia({
@@ -24,6 +30,11 @@ const Register = () => {
         .catch(err=>{
             console.error(err);
         })
+    }
+
+    const cam_button_clicked = () => {
+        setOpenCam(true);
+        getVideo();
     }
 
     const takePhoto = () => {
@@ -40,8 +51,7 @@ const Register = () => {
         ctx.drawImage(video, 0, 0, width, height);
         setHasPhoto(true);
         var b64 = photo.toDataURL('image/jpeg')
-        state.credentials["image"]=b64;
-        console.log(b64);
+        setBase64(b64);
     }
 
     const retakePhoto = () => {
@@ -49,8 +59,8 @@ const Register = () => {
         let ctx = photo.getContext('2d');
 
         ctx.clearRect(0, 0, photo.width, photo.height);
-        state.credentials["image"]=null;
         setHasPhoto(false);
+        setBase64(null);
     }
 
     const savePhoto = () => {
@@ -58,17 +68,9 @@ const Register = () => {
         setHasPhoto(false);
     }
 
-    const Navigate = useNavigate();
-
-    const [openCam, setOpenCam] = useState(false);
-
-    const state = {
-        credentials: {id: null, username: '', password: '', email: '', image:''},
-    }
-
-    const testButtonClicked = async (a) => {
-        a.preventDefault();
+    const checkFace = async (face1, face2) => {
         let auth = await nodeflux_auth();
+        var res = false;
 
 
         const doSomething = delay_amount_ms =>
@@ -82,30 +84,36 @@ const Register = () => {
                 result = await nodefluxFaceMatch({
                     "auth_key": auth.auth_key,
                     "timestamp": auth.timestamp
-                }, state.credentials["image"], state.credentials["image"])
+                }, face1, face2)
                 status = result.response.job.result.status
                 await doSomething(100)
                 console.log(status)
             }
 
-            console.log(result) // DISABLE LATER
             if (result.response.message === "No face detected") {
                 alert("No face detected in your captured photo");
             } else if (result.response.message === "Face Match Success") {
-                console.log(result.job.result.result.face_match.match);
+                res = result.response.job.result.result[0].face_match.match;
             } else {
                 alert(result.response.message)
             }
         }
 
-        await loop().then(() => {alert("success boi")});
+        await loop().then(() => {console.log(res)});
     }
 
     const register = () => {
-        fetch('https://surevey-backend.herokuapp.com/api/users/', {
+        fetch('http://127.0.0.1:8000/api/users/', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(state.credentials)
+            body: JSON.stringify(
+                {
+                    "id": null,
+                    "email": email,
+                    "image": base64,
+                    "password": password,
+                }
+            )
         })
         .then( res => res.json())
         .then(
@@ -115,22 +123,12 @@ const Register = () => {
         ).catch( error => console.error(error))
     }
 
-    const inputChanged = event => {
-        const cred = state.credentials;
-        cred[event.target.name] = event.target.value; 
-        state.credentials = cred;
+    const passwordChanged = event => {
+        setPassword(event.target.value);
     }
 
     const emailChange = event => {
-        const cred = state.credentials;
-        cred["email"] = event.target.value;
-        cred["username"] = event.target.value;
-        state.credentials = cred;
-    }
-
-    const cam_button_clicked = () => {
-        setOpenCam(true);
-        getVideo();
+        setEmail(event.target.value);
     }
 
     return (
@@ -148,7 +146,7 @@ const Register = () => {
                 </div>
                 <div class="txt_field">
                     <input type="password" name="password"
-                     onChange={inputChanged}
+                     onChange={passwordChanged}
                      required/>
                     <span></span>
                     <label>Password</label>
@@ -163,7 +161,6 @@ const Register = () => {
         hasPhoto={hasPhoto} photoRef={photoRef} retakePhoto={retakePhoto} savePhoto={savePhoto}>
             <h3>Camera</h3>
         </Camera>
-        <button onClick={testButtonClicked}>testcalllmao</button>
       </div>
     );
   }

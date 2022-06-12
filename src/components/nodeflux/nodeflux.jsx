@@ -3,7 +3,7 @@ const SECRET_KEY = process.env.REACT_APP_SECRET_KEY
 
 // post request for getting the authorization key for nodeflux itself
 export const nodeflux_auth = async () => {
-    return await fetch("/auth/signatures", {
+    return await fetch("https://surevey-proxy-server.vercel.app/api/nodeflux/authorization", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -13,7 +13,6 @@ export const nodeflux_auth = async () => {
             "secret_key": SECRET_KEY
         })
     }).then(response => {
-        console.log(response.text());
         return response.json();
     }).then(authorization => {
         const DATE = authorization.headers['x-nodeflux-timestamp'].slice(0, 8)
@@ -39,7 +38,7 @@ export const nodefluxFaceMatch = async (authorization = null, register_face, db_
         auth = await nodeflux_auth()
     }
 
-    return fetch("/v1/analytics/face-match", {
+    return fetch("https://surevey-proxy-server.vercel.app/api/nodeflux/face-match", {
         method: "POST",
         headers: {
             "authorization": auth.auth_key,
