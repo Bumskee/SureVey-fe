@@ -12,7 +12,7 @@ export default function Mainbody() {
 
   async function allForms() {
     // GET
-    var request = await axios.get("https://surevey-backend.herokuapp.com/api/get_all_forms")
+    var request = await axios.get("http://127.0.0.1:8000/api/get_all_forms")
     let filename = request.data;
     setForms(filename)
     // console.log(filename[0].DocumentID)
@@ -26,6 +26,14 @@ export default function Mainbody() {
   useEffect(() => {
     allForms();
   }, [])
+
+  function removeDoc(id) {
+    axios.delete(`http://127.0.0.1:8000/form/${id}`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then(() => allForms());
+  }
 
   return (
     <div className="mainbody">
@@ -41,7 +49,7 @@ export default function Mainbody() {
             <thead>
               <tr>
                 <th>Form Title</th>
-                <th>Date Created</th>
+                <th>Description</th>
                 {/* <th>No. of Responses</th> */}
                 {/* <th></th> */}
               </tr>
@@ -53,7 +61,8 @@ export default function Mainbody() {
                   <td>{form.DocumentDesc}</td>
                   {/* <td>{form.responses}</td> */}
                   <td>
-                    <button type="button" onClick={()=>navigateTo(form.DocumentID)}>Edit</button>
+                    <Button type="button" onClick={()=>navigateTo(form.DocumentID)} style={ {backgroundColor: "orange", color: "red", margin: 1, marginRight: 4 } } >Edit</Button>
+                    <Button type="button" onClick={()=>removeDoc(form.DocumentID)}style={ {backgroundColor: "red", color: "white" } } >Delete</Button>
                   </td>
                 </tr>
               ))}

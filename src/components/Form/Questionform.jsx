@@ -20,7 +20,6 @@ import {
   CheckBox,
   Close,
   ShortText,
-  Subject,
   DeleteOutline,
   AddCircleOutline,
   DragIndicator,
@@ -88,6 +87,7 @@ function Questionform() {
             type: actionTypes.SET_DOC_DESC,
             doc_desc: doc_desc,
           });
+          
           dispatch({
             type: actionTypes.SET_QUESTIONS,
             questions: question_data,
@@ -293,42 +293,61 @@ function Questionform() {
     });
 
     if (isNew) {
+      console.log(id);
+      console.log(documentName);
       axios.post(
         `http://127.0.0.1:8000/api/form/${id}`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        },
         {
           DocumentID: id,
           DocumentName: documentName,
           DocumentDesc: documentDesc,
           DocumentQuests: questions,
-        }
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        },
       );
       setNew(false);
     } else {
       axios.put(
         `http://127.0.0.1:8000/api/form/${id}`,
         {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        },
-        {
           DocumentID: id,
           DocumentName: documentName,
           DocumentDesc: documentDesc,
           DocumentQuests: questions,
-        }
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        },
       );
     }
   }
 
   function viewForm() {
-    console.log("here");
-    // navigate("/response");
+    dispatch({
+      type: actionTypes.SET_DOC_NAME,
+      doc_name: documentName,
+    });
+
+    dispatch({
+      type: actionTypes.SET_DOC_DESC,
+      doc_desc: documentDesc,
+    });
+    
+    dispatch({
+      type: actionTypes.SET_QUESTIONS,
+      questions: questions,
+    });
+    
+    // save before view
+    submitToDB();
+
+    navigate("/response");
   }
 
   function newQuestion() {
@@ -783,13 +802,16 @@ function Questionform() {
 
                       {!ques.answer ? (
                         <div className="question_edit">
-                          <AddCircleOutline
-                            className="edit"
-                            data-toggle="tooltip"
-                            data-placement="top"
-                            title={"Add question"}
-                            onClick={addMoreQuestionField}
-                          />
+                          <IconButton 
+                          className="edit"
+                          data-toggle="tooltip"
+                          data-placement="top"
+                          title={"Add question"}
+                          onClick={addMoreQuestionField}>
+                          
+
+                            <AddCircleOutline />
+                          </IconButton>
                           {/* <OndemandVideo className="edit" /> */}
                           {/* <CropOriginal className="edit" /> */}
                           {/* <TextFields className="edit" /> */}
@@ -821,6 +843,7 @@ function Questionform() {
                 placeholder="Untitled document"
                 value={documentName}
                 onChange={(event) => {
+                  console.log(event.target.value);
                   setDocName(event.target.value);
                 }}
               />
@@ -860,9 +883,8 @@ function Questionform() {
             >
               Save
             </Button>
-            {/* gk ngotak si ini */}
-            <IconButton>
-              <RemoveRedEyeOutlined onClick={viewForm()} style={{ marginLeft: "15px" }}></RemoveRedEyeOutlined>
+            <IconButton onClick={viewForm} style={{ marginLeft: "15px" }}>
+              <RemoveRedEyeOutlined />
             </IconButton>
           </div>
         </div>

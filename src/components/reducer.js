@@ -3,8 +3,6 @@ export const initialState = {
   questionType:"radio",
   doc_name:"Untitled form",
   doc_desc:"add the description "
-
-
 }
 
 export const actionTypes = {
@@ -12,7 +10,6 @@ export const actionTypes = {
     CHANGE_TYPE:"CHANGE_TYPE",
     SET_DOC_NAME:"SET_DOC_NAME",
     SET_DOC_DESC:"SET_DOC_DESC"
-    
 }
 
 const reducer = (state, action)=>{
