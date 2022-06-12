@@ -25,15 +25,19 @@ import {
   AddCircleOutline,
   DragIndicator,
   Article,
+  RemoveRedEyeOutlined,
 } from "@mui/icons-material";
+import VisibilityIcon from '@mui/icons-material/Visibility';
 import { DragDropContext } from "react-beautiful-dnd";
 import { Droppable } from "react-beautiful-dnd";
 import { Draggable } from "react-beautiful-dnd";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useStateValue } from "../StateProvider";
 import { actionTypes } from "../reducer";
 
 function Questionform() {
+  const navigate = useNavigate();
+
   let { id } = useParams();
   const [{}, dispatch] = useStateValue();
   const [questions, setQuestions] = useState([
@@ -142,13 +146,13 @@ function Questionform() {
     setQuestions(optionsOfQuestion);
   }
 
-  function copyQuestion(i) {
-    expandCloseAll();
-    let qs = [...questions];
-    var newQuestion = { ...qs[i] };
+  // function copyQuestion(i) {
+  //   expandCloseAll();
+  //   let qs = [...questions];
+  //   var newQuestion = { ...qs[i] };
 
-    setQuestions([...questions, newQuestion]);
-  }
+  //   setQuestions([...questions, newQuestion]);
+  // }
 
   function deleteQuestion(i) {
     let qs = [...questions];
@@ -320,6 +324,11 @@ function Questionform() {
         }
       );
     }
+  }
+
+  function viewForm() {
+    console.log("here");
+    // navigate("/response");
   }
 
   function newQuestion() {
@@ -841,6 +850,7 @@ function Questionform() {
               )}
             </Droppable>
           </DragDropContext>
+
           <div className="save_form">
             <Button
               variant="contained"
@@ -850,6 +860,10 @@ function Questionform() {
             >
               Save
             </Button>
+            {/* gk ngotak si ini */}
+            <IconButton>
+              <RemoveRedEyeOutlined onClick={viewForm()} style={{ marginLeft: "15px" }}></RemoveRedEyeOutlined>
+            </IconButton>
           </div>
         </div>
       </div>
