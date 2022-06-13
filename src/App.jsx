@@ -9,16 +9,21 @@ import "./App.css";
 import CenterTabs from "./components/Form/Tabs";
 import Questionform from "./components/Form/Questionform";
 import UserForm from "./components/UserForm/UserForm";
+import { useNavigate } from "react-router-dom";
 
-const App = () => {
-
+const Root = () => {
+  const Navigate = useNavigate();
   const [isAuth, setIsAuth] = useState(false);
+  const signOut = () => {
+    setIsAuth(false);
+    Navigate("/");
+  }
 
   return (
-    <Router>
+      <div>
         <nav>
             <Link className="nav_text" to="/">Home</Link>
-            <Link className="nav_text" to="/login">Login</Link>
+            {isAuth ? <button className = 'astext' onClick={signOut}>Logout</button> : <Link className="nav_text" to="/login">Login</Link>}
             {!isAuth ? <Link className="nav_text" to="/login">Auth_Test</Link> : <Link className="nav_text" to="/test">Auth_Test</Link>}
         </nav>
         <Routes>
@@ -43,6 +48,19 @@ const App = () => {
             <Route path="/register" element={<Register/>}/>
             <Route path="/test" element={<Test/>}/>
         </Routes>
+      </div>
+  )
+}
+
+const App = () => {
+  const [isAuth, setIsAuth] = useState(false);
+  const signOut = () => {
+    setIsAuth(false);
+  }
+
+  return (
+    <Router>
+        <Root />
     </Router>
   );
 }
