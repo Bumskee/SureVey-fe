@@ -35,6 +35,7 @@ const Root = () => {
           )} */}
 
         {localStorage.getItem("isAuth") ? <button className = 'astext' onClick={signOut}>Logout</button> : <Link className="nav_text" to="/login">Login</Link>}
+        
       </nav>
       <Routes>
         <Route path="/login" element={<Login/>} />
