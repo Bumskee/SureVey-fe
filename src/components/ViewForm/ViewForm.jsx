@@ -14,6 +14,7 @@ function UserForm() {
   var [{ questions, doc_name, doc_desc }, dispatch] = useStateValue();
 
   function select(que, option) {
+    console.log("select")
     var i = answer.findIndex((el) => el.question == que);
     answer[i].answer = option;
     setAnswer(answer);
@@ -33,6 +34,7 @@ function UserForm() {
   var post_answer_data = {};
 
   function selectInput(que, option) {
+    console.log("input")
     var k = answer.findIndex((ele) => ele.question == que);
 
     answer[k].answer = option;
@@ -40,6 +42,7 @@ function UserForm() {
   }
 
   function selectCheck(e, que, option) {
+    console.log("check")
     var d = [];
     var k = answer.findIndex((ele) => ele.question == que);
     if (answer[k].answer) {
@@ -94,7 +97,7 @@ function UserForm() {
                       {question.questionType != "radio" ? (
                         question.questionType != "text" ? (
                           <label>
-                            <input type = {question.questinType} name = {quesIndex} value= {ques.optionText} className="form_check_input" required={question.required} style={{ marginLeft: "5px", marginRight: "5px" }} onChange={(e) => {
+                            <input type = {question.questionType} name = {quesIndex} className="form_check_input" required={question.required} style={{ marginLeft: "5px", marginRight: "5px" }} onChange={(e) => {
                               selectCheck(
                                 e.target.checked,
                                 question.questionText,
