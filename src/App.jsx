@@ -11,6 +11,7 @@ import UserForm from "./components/UserForm/UserForm";
 import ViewForm from "./components/ViewForm/ViewForm"
 import { useNavigate } from "react-router-dom";
 import Submit from "./components/UserForm/Submit";
+import Home from "./components/Home/Home";
 
 // const App = () => {
 const Root = () => {
@@ -24,7 +25,7 @@ const Root = () => {
     <div>
       <nav>
 
-        <Link className="nav_text" to="/">Home</Link>
+        {/* <Link className="nav_text" to="/">Home</Link> */}
 
         <Link className="nav_text" to="/account">Account</Link>
 
@@ -32,6 +33,7 @@ const Root = () => {
         
       </nav>
       <Routes>
+        <Route path="/" element={<Login/>} />
         <Route path="/login" element={<Login/>} />
 
         <Route path="/account"
@@ -56,7 +58,7 @@ const Root = () => {
               <Login />
             )
           } />
-
+        <Route path="/" element={<Home />} />
         <Route path="/response" element={<ViewForm />} />
         <Route path="/register" element={<Register />} />
         <Route path="/question_form/:id" element =
