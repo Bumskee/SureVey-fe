@@ -99,7 +99,6 @@ const Register = () => {
                 res = result.response.job.result.result[0].face_match.match;
                 return res;
             } else {
-                alert(result.response.message)
                 return res;
             }
         }
