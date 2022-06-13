@@ -248,15 +248,20 @@ function Questionform() {
 
     answerOfQuestion[i].answer = !answerOfQuestion[i].answer;
 
+    console.log(answerOfQuestion);
     setQuestions(answerOfQuestion);
+    console.log(questions);
   }
 
   function doneAnswer(i) {
     var answerOfQuestion = [...questions];
 
     answerOfQuestion[i].answer = !answerOfQuestion[i].answer;
+    console.log(i + "here");
+    console.log(answerOfQuestion)
 
     setQuestions(answerOfQuestion);
+    console.log(questions);
   }
 
   // function submitToDB() {
@@ -302,7 +307,7 @@ function Questionform() {
           DocumentName: documentName,
           DocumentDesc: documentDesc,
           DocumentQuests: questions,
-          // Creator: 
+          Creator: localStorage.getItem("email"),
         },
         {
           headers: {
@@ -319,7 +324,7 @@ function Questionform() {
           DocumentName: documentName,
           DocumentDesc: documentDesc,
           DocumentQuests: questions,
-          // Creator: 
+          Creator: localStorage.getItem("email"),
         },
         {
           headers: {

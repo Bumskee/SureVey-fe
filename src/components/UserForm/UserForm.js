@@ -1,8 +1,130 @@
-import { Typography } from '@mui/material'
-import React from 'react'
+import { Button, Typography } from '@mui/material'
+import axios from 'axios';
+import React, { useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom';
+import { useStateValue } from '../StateProvider';
 import "../ViewForm/ViewForm.css"
 
 function UserForm() {
+  var Navigate = useNavigate()
+  var quest = [];
+  var posted_answer_data = {};
+  var { id } = useParams();
+
+  var [answer, setAnswer] = useState([]);
+  var [{}, dispatch] = useStateValue();
+  var [questions, setQuestions] = useState([]);
+  var [doc_name, setDocName] = useState("");
+  var [doc_desc, setDocDesc] = useState("");
+
+  useEffect(() => {
+    async function data_adding() {
+      var request = await axios.get(
+        `https://surevey-backend.herokuapp.com/api/form/${id}`, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then((request) => {
+        var question_data = request.data.DocumentQuests;
+        var doc_name = request.data.DocumentName;
+        var doc_desc = request.data.DocumentDesc;
+
+        setDocName(doc_name);
+        console.log(doc_name);
+        setDocDesc(doc_desc);
+        setQuestions(question_data);
+
+        // dispatch({
+        //   type: actionTypes.SET_DOC_NAME,
+        //   doc_name: doc_name,
+        // });
+
+        // dispatch({
+        //   type: actionTypes.SET_DOC_DESC,
+        //   doc_desc: doc_desc,
+        // });
+        
+        // dispatch({
+        //   type: actionTypes.SET_QUESTIONS,
+        //   questions: question_data,
+        // });
+
+        question_data.map((q) => {
+          answer.push({
+            question: q.questionText,
+            answer: " ",
+          });
+        });
+
+        question_data.map((q, quesIndex) => {
+          quest.push( {header: q.questionText, key: q.questionText} )
+        });
+
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+    }
+
+    console.log(id);
+    data_adding();
+  }, []);
+
+  function select( que, option ) {
+    var j = answer.findIndex((el) => el.question == que);
+
+    answer[j].answer = option;
+    setAnswer(answer);
+  }
+
+  function selectInput( que, option ) {
+    var j = answer.findIndex((el) => el.question == que);
+
+    answer[j].answer = option;
+    setAnswer(answer);
+  }
+
+  function selectCheck(e, que, option) {
+    var l = [];
+    var j = answer.findIndex((el) => el.question == que );
+
+    if (answer[j].answer) {
+      l = answer[j].answer.split(",");
+    }
+
+    if (e == true) {
+      l.push(option);
+    } else {
+      var k = l.findIndex((el) => el.option == option );
+      l.splice(k, 1);
+    }
+
+    answer[j].answer = l.join(",");
+
+    setAnswer(answer);
+  }
+
+  function submit() {
+
+    answer.map((el) => {
+      posted_answer_data[el.question] = el.answer
+    });
+
+    console.log(posted_answer_data)
+
+    axios.post(
+      `https://surevey-backend.herokuapp.com/responses/${id}`,
+      {
+        column: quest,
+        answer_data: [posted_answer_data],
+      }
+    );
+
+    Navigate(`/submit`)
+  }
+
   return (
     <div className='submit'>
       <div className='user_form'>

@@ -7,8 +7,9 @@ import Register from "./components/Login/Register";
 import "./App.css";
 import CenterTabs from "./components/Form/Tabs";
 import Questionform from "./components/Form/Questionform";
-import UserForm from "./components/ViewForm/ViewForm";
+import UserForm from "./components/UserForm/UserForm";
 import { useNavigate } from "react-router-dom";
+import Submit from "./components/UserForm/Submit";
 
 // const App = () => {
 const Root = () => {
@@ -63,6 +64,19 @@ const Root = () => {
 
         <Route path="/response" element={<UserForm />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/question_form/:id" element =
+          {localStorage.getItem("isAuth") ? (
+            <UserForm />
+          ) : (
+            <Login />
+          )} />
+        <Route path="/submit" element =
+          {localStorage.getItem("isAuth") ? (
+            <Submit />
+          ) : (
+            <Login />
+          )} /> 
+
       </Routes>  
     </div>
   )
