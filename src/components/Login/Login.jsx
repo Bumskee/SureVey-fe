@@ -1,9 +1,9 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import './Login.css';
 
 const Login = ({setIsAuth}) => {
-    const Navigate = useNavigate();
+    const history = useHistory();
     const state = {
         credentials: {username: '', password: '', email: ''},
     }
@@ -24,14 +24,15 @@ const Login = ({setIsAuth}) => {
             data => { 
                if (data.token) {
                 userLogin();
-                Navigate("/");
+                history.push("/");
                } 
             }
-        ).catch( error => console.error(error))
+        )
+        .catch( error => console.error(error))
     }
 
     const registerButton = () => {
-        Navigate("/register");
+        history.push("/register");
     }
 
     const inputChanged = event => {
