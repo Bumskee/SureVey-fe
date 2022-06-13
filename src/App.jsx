@@ -8,7 +8,7 @@ import Test from "./components/Tests/Test";
 import "./App.css";
 import CenterTabs from "./components/Form/Tabs";
 import Questionform from "./components/Form/Questionform";
-import UserForm from "./components/UserForm/UserForm";
+import UserForm from "./components/ViewForm/ViewForm";
 import { useHistory } from "react-router-dom";
 
 // const App = () => {

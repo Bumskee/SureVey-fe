@@ -3,7 +3,7 @@ import { Button, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { useStateValue } from '../StateProvider'
-import "./UserForm.css"
+import "./ViewForm.css"
 
 function UserForm() {
   const history = useHistory()

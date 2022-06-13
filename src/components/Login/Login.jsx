@@ -27,7 +27,8 @@ const Login = ({setIsAuth}) => {
                 history.push("/");
                } 
             }
-        ).catch( error => console.error(error))
+        )
+        .catch( error => console.error(error))
     }
 
     const registerButton = () => {

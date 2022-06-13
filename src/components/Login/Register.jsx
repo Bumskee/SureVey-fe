@@ -119,7 +119,7 @@ const Register = () => {
             .then( res => res.json())
             .then(
                 () => {
-                    Navigate("/");
+                    history.push("/");
                 }
             ).catch( error => console.error(error))    
         }
