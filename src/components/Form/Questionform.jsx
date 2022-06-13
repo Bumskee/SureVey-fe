@@ -314,8 +314,11 @@ function Questionform() {
             "Content-Type": "application/json",
           },
         },
+      ).then(
+        () => alert("Form Saved")
       );
       setNew(false);
+      
     } else {
       axios.put(
         `https://surevey-backend.herokuapp.com/api/form/${id}`,
@@ -331,7 +334,7 @@ function Questionform() {
             "Content-Type": "application/json",
           },
         },
-      );
+      ).then(() => alert("Form Updated"));
     }
   }
 
