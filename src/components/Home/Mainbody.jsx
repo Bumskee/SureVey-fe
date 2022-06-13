@@ -19,19 +19,17 @@ function Mainbody() {
       },
     }).then((request) => {
 
-      // let documents = request.data;
-      // let document = []
+      let documents = request.data;
+      let document = []
 
-      // for (let i =0; i < documents.length; i++ ) {
-      //   // console.log(documents[i].Creator);
-      //   if (documents[i].Creator === localStorage.getItem("email")) {
-      //     document.push(documents[i])
-      //   }
-      // }
-      setForms(request.data)
+      for (let i = 0; i < documents.length; i++ ) {
+        if (documents[i].Creator === localStorage.getItem("email")) {
+          document.push(documents[i])
+          console.log(document)
+        }
+      }
+      setForms(document)
     })
-    // console.log(document)
-    // console.log(files[0].DocumentID)
   }
 
   function navigateTo(id) {
@@ -72,22 +70,17 @@ function Mainbody() {
               </tr>
             </thead>
             <tbody>
-              {forms.map((form) => 
-              {
-                {(form.Creator === localStorage.getItem("email")) ? (
-                  <tr>
-                  <td>{form.DocumentName}</td>
-                  <td>{form.DocumentDesc}</td>
-                  {/* <td>{form.responses}</td> */}
-                  <td>
-                    <p>{form.Creator}</p>
-                    <Edit type="button" onClick={()=>navigateTo(form.DocumentID)} style={ {margin: 1, marginRight: 4, paddingLeft: 20 } } />
-                    <DeleteOutline type="button" onClick={()=>removeDoc(form.DocumentID)} style={ {margin: 1, paddingLeft: 20} } />
-                  </td>
-                </tr>
-                 ) : (" ")}
-              })}
-              
+              {forms.map((form) => (
+                <tr>
+                <td>{form.DocumentName}</td>
+                <td>{form.DocumentDesc}</td>
+                {/* <td>{form.responses}</td> */}
+                <td>
+                  <Edit type="button" onClick={()=>navigateTo(form.DocumentID)} style={ {margin: 1, marginRight: 4, paddingLeft: 20 } } />
+                  <DeleteOutline type="button" onClick={()=>removeDoc(form.DocumentID)} style={ {margin: 1, paddingLeft: 20} } />
+                </td>
+              </tr>
+              ))}
             </tbody>
           </table>
         </div>
