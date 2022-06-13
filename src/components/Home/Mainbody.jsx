@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import "./Mainbody.css"
-import { useNavigate, withRouter } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import data from "../../data/mock-data.json"
 
 import axios from "axios"
 import { Button } from '@mui/material'
-import { Delete, DeleteOutline, Edit, EditOutlined } from '@mui/icons-material';
+import { DeleteOutline, DocumentScannerTwoTone, Edit } from '@mui/icons-material';
 
 function Mainbody() {
   const Navigate = useNavigate()
@@ -13,10 +13,25 @@ function Mainbody() {
 
   async function allForms() {
     // GET
-    var request = await axios.get("https://surevey-backend.herokuapp.com/api/get_all_forms")
-    let filename = request.data;
-    setForms(filename)
-    // console.log(filename[0].DocumentID)
+    var request = await axios.get("https://surevey-backend.herokuapp.com/api/get_all_forms", {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((request) => {
+
+      // let documents = request.data;
+      // let document = []
+
+      // for (let i =0; i < documents.length; i++ ) {
+      //   // console.log(documents[i].Creator);
+      //   if (documents[i].Creator === localStorage.getItem("email")) {
+      //     document.push(documents[i])
+      //   }
+      // }
+      setForms(request.data)
+    })
+    // console.log(document)
+    // console.log(files[0].DocumentID)
   }
 
   function navigateTo(id) {
@@ -57,17 +72,21 @@ function Mainbody() {
               </tr>
             </thead>
             <tbody>
-              {forms.map((form) => (
-                <tr>
+              {forms.map((form) => 
+              {
+                {(form.Creator === localStorage.getItem("email")) ? (
+                  <tr>
                   <td>{form.DocumentName}</td>
                   <td>{form.DocumentDesc}</td>
                   {/* <td>{form.responses}</td> */}
                   <td>
+                    <p>{form.Creator}</p>
                     <Edit type="button" onClick={()=>navigateTo(form.DocumentID)} style={ {margin: 1, marginRight: 4, paddingLeft: 20 } } />
                     <DeleteOutline type="button" onClick={()=>removeDoc(form.DocumentID)} style={ {margin: 1, paddingLeft: 20} } />
                   </td>
                 </tr>
-              ))}
+                 ) : (" ")}
+              })}
               
             </tbody>
           </table>
