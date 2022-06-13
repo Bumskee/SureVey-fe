@@ -73,16 +73,15 @@ const Register = () => {
 
     const checkFace = async (face1, face2) => {
         let auth = await nodeflux_auth();
-        var res = false;
 
 
         const doSomething = delay_amount_ms =>
             new Promise(resolve => setTimeout(() => resolve("delay"), delay_amount_ms))
 
         const loop = async () => {
-            // set loading to true here
             let status;
             let result;
+            let res = false;
             while (['success', 'incompleted'].includes(status) !== true) {
                 result = await nodefluxFaceMatch({
                     "auth_key": auth.auth_key,
@@ -94,15 +93,18 @@ const Register = () => {
             }
 
             if (result.response.message === "No face detected") {
-                alert("No face detected in your captured photo");
+                res = true;
+                return res;
             } else if (result.response.message === "Face Match Success") {
                 res = result.response.job.result.result[0].face_match.match;
+                return res;
             } else {
                 alert(result.response.message)
+                return res;
             }
         }
 
-        await loop().then(() => {return res});
+        return await loop();
     }
 
     const getUsers = async () => {
@@ -115,6 +117,21 @@ const Register = () => {
 
     const loopFaces = async () => {
         let users = await getUsers();
+        let unique = true;
+
+        // async function loop
+        const loop = async () => {
+            // checkface the taken picture with every image in the database
+
+            for (var i = 0; i < users.length; i++) {
+                console.log(await checkFace(base64, users[i].image))
+                if (await checkFace(base64, users[i].image)) {
+                    alert("Your photo is not valid")
+                    setPhotoValid(false)
+                    unique = false
+                }
+            }
+        }
         // when there are no face in the database
         if (users.length === 0) {
             alert("Face is valid.")
@@ -122,20 +139,7 @@ const Register = () => {
         }
         // when there are face on the databse
         else {
-            // checkface the taken picture with every image in the database
-            let unique = true;
-            {users.map(user=>{
-                if (checkFace(base64, user.image)) {
-                    alert("face exists in the database")
-                    setPhotoValid(false);
-                    unique = false;
-                }
-            })}
-            // if the face is unique, say to the user that their photo is unique
-            if (unique) {
-                alert("Face is unique");
-                setPhotoValid(true);
-            }
+            return await loop().then(() => {setPhotoValid(unique)});
         }
     }
 
