@@ -53,11 +53,6 @@ const Root = () => {
 }
 
 const App = () => {
-  const [isAuth, setIsAuth] = useState(false);
-  const signOut = () => {
-    setIsAuth(false);
-  }
-
   return (
     <Router>
         <Root />
