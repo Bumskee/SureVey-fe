@@ -159,7 +159,7 @@ const Register = () => {
             .then( res => res.json())
             .then(
                 () => {
-                    Navigate("/");
+                    Navigate("/login");
                 }
             ).catch( error => console.error(error))    
         }
@@ -220,5 +220,5 @@ const Register = () => {
     );
   }
   
-  
+
   export default Register;

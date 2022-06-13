@@ -25,7 +25,7 @@ const Login = () => {
                 const cred = state.credentials;
                 localStorage.setItem("email", cred["email"])
                 userLogin();
-                Navigate("/");
+                Navigate("/account");
                } 
             }
         )

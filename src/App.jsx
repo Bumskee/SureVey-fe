@@ -23,17 +23,10 @@ const Root = () => {
   return (
     <div>
       <nav>
+
         <Link className="nav_text" to="/">Home</Link>
 
-        {/* {!isAuth ? (
-          <Link className="nav_text" to="/login">
-          Account
-          </Link>
-          ) : (
-            <Link className="nav_text" to="/account">
-            Account
-            </Link>
-          )} */}
+        <Link className="nav_text" to="/account">Account</Link>
 
         {localStorage.getItem("isAuth") ? <button className = 'astext' onClick={signOut}>Logout</button> : <Link className="nav_text" to="/login">Login</Link>}
         
