@@ -9,40 +9,35 @@ import "./App.css";
 import CenterTabs from "./components/Form/Tabs";
 import Questionform from "./components/Form/Questionform";
 import UserForm from "./components/UserForm/UserForm";
+import { useHistory } from "react-router-dom";
 
-const App = () => {
+// const App = () => {
+const Root = () => {
+  const history = useHistory();
   const [isAuth, setIsAuth] = useState(false);
+  const signOut = () => {
+    setIsAuth(false);
+    history.push("/");
+  }
 
   return (
-    <Router>
-      <nav>
-        {!isAuth ? (
+        <Router>
+    <nav>
+        <Link className="nav_text" to="/">Home</Link>
+
+        {/* {!isAuth ? (
           <Link className="nav_text" to="/login">
+          Account
+          </Link>
+          ) : (
+            <Link className="nav_text" to="/account">
             Account
-          </Link>
-        ) : (
-          <Link className="nav_text" to="/account">
-            Account
-          </Link>
-        )}
-        {!isAuth ? (
-          <Link className="nav_text" to="/login">
-            Login
-          </Link>
-        ) : (
-          <Link className="nav_text" to="/login">
-            Login
-          </Link>
-        )}
-        {!isAuth ? (
-          <Link className="nav_text" to="/login">
-            Auth_Test
-          </Link>
-        ) : (
-          <Link className="nav_text" to="/test">
-            Auth_Test
-          </Link>
-        )}
+            </Link>
+          )} */}
+
+        {isAuth ? <button className = 'astext' onClick={signOut}>Logout</button> : <Link className="nav_text" to="/login">Login</Link>}
+
+        {!isAuth ? <Link className="nav_text" to="/login">Auth_Test</Link> : <Link className="nav_text" to="/test">Auth_Test</Link>}
       </nav>
       <Route path="/login">
         <Login setIsAuth={setIsAuth} />
@@ -73,6 +68,14 @@ const App = () => {
       <Route path="/response"><UserForm /></Route>
       <Route path="/register"><Register /></Route>
       <Route path="/test"><Test /></Route>
+    </Router>
+  )
+}
+
+const App = () => {
+  return (
+    <Router>
+        <Root />
     </Router>
   );
 };

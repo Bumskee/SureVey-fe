@@ -103,24 +103,34 @@ const Register = () => {
     }
 
     const register = () => {
-        fetch('https://surevey-backend.herokuapp.com/api/users/', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(
-                {
-                    "id":null,
-                    "email": email,
-                    "image": base64,
-                    "password": password,
+        if (email !== '' && password !== '') {
+            fetch('https://surevey-backend.herokuapp.com/api/users/', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(
+                    {
+                        "id":null,
+                        "email": email,
+                        "image": base64,
+                        "password": password,
+                    }
+                )
+            })
+            .then( res => res.json())
+            .then(
+                () => {
+                    Navigate("/");
                 }
-            )
-        })
-        .then( res => res.json())
-        .then(
-            () => {
-                history.push("/");
-            }
-        ).catch( error => console.error(error))
+            ).catch( error => console.error(error))    
+        }
+        else {
+            alert("Please fill the registration form.");
+        }
+        
+    }
+
+    const noPic = () => {
+        alert("Please take a picture of your face first.");
     }
 
     const passwordChanged = event => {
@@ -152,8 +162,8 @@ const Register = () => {
                     <label>Password</label>
                 </div>
                 <div className="register-cam">
-                <button className="open_cam_button" onClick={cam_button_clicked}><CameraAltIcon style={{ color: "white" }} /></button>
-                    <button className="register_button" onClick={register}>Register</button>
+                <button className={base64 ? "open_cam_button_has_photo" : "open_cam_button"} onClick={cam_button_clicked}><CameraAltIcon style={{ color: "white" }} /></button>
+                    <button className="register_button" onClick={base64 ? register : noPic}>Register</button>
                 </div>
             </div>
         </div> 
