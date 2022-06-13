@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { BrowserRouter as Router, Route, Link, Redirect } from "react-router-dom";
+import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
 import Mainbody from "./components/Home/Mainbody";
 import Template from "./components/Home/Template";
 import Login from "./components/Login/Login";
@@ -9,20 +9,20 @@ import "./App.css";
 import CenterTabs from "./components/Form/Tabs";
 import Questionform from "./components/Form/Questionform";
 import UserForm from "./components/ViewForm/ViewForm";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 // const App = () => {
 const Root = () => {
-  const history = useHistory();
+  const Navigate = useNavigate();
   const [isAuth, setIsAuth] = useState(false);
   const signOut = () => {
     setIsAuth(false);
-    history.push("/");
+    Navigate("/login");
   }
 
   return (
-        <Router>
-    <nav>
+    <div>
+      <nav>
         <Link className="nav_text" to="/">Home</Link>
 
         {/* {!isAuth ? (
@@ -36,39 +36,39 @@ const Root = () => {
           )} */}
 
         {isAuth ? <button className = 'astext' onClick={signOut}>Logout</button> : <Link className="nav_text" to="/login">Login</Link>}
-
         {!isAuth ? <Link className="nav_text" to="/login">Auth_Test</Link> : <Link className="nav_text" to="/test">Auth_Test</Link>}
       </nav>
-      <Route path="/login">
-        <Login setIsAuth={setIsAuth} />
-      </Route>
+      <Routes>
+        <Route path="/login" element={<Login setIsAuth={setIsAuth}/>} />
 
-      <Route path="/account">
-        {isAuth ? (
-          <div>
-            <Template />
-            <Mainbody />
-          </div>
-        ) : (
-          <Redirect to="/login" />
-        )}
-      </Route>
-      <Route
-        path="/form/:id">
-          {isAuth ? (
-          <div>
-            <CenterTabs />
-            <Questionform />
-          </div>
+        <Route path="/account"
+          element= {isAuth ? (
+            <div>
+              <Template />
+              <Mainbody />
+            </div>
           ) : (
-            <Redirect to="/login" />
-          )
-        }
-      </Route>
-      <Route path="/response"><UserForm /></Route>
-      <Route path="/register"><Register /></Route>
-      <Route path="/test"><Test /></Route>
-    </Router>
+            <Login setIsAuth={setIsAuth}/>
+          )}/>
+
+        <Route
+          path="/form/:id"
+          element = 
+            {isAuth ? (
+            <div>
+              <CenterTabs />
+              <Questionform />
+            </div>
+            ) : (
+              <Login setIsAuth={setIsAuth} />
+            )
+          } />
+
+        <Route path="/response" element={<UserForm />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/test" element = {<Test />} />
+      </Routes>  
+    </div>
   )
 }
 

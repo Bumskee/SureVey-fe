@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import "./Mainbody.css"
-import { useHistory, withRouter } from "react-router-dom";
+import { useNavigate, withRouter } from "react-router-dom";
 import data from "../../data/mock-data.json"
 
 import axios from "axios"
@@ -8,7 +8,7 @@ import { Button } from '@mui/material'
 import { Delete, DeleteOutline, Edit, EditOutlined } from '@mui/icons-material';
 
 function Mainbody() {
-  const history = useHistory()
+  const Navigate = useNavigate()
   const [forms, setForms] = useState(data)
 
   async function allForms() {
@@ -20,7 +20,7 @@ function Mainbody() {
   }
 
   function navigateTo(id) {
-    history.push("/form/" + id)
+    Navigate("/form/" + id)
     console.log(id)
   }
 

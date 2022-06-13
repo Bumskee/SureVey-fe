@@ -5,17 +5,17 @@ import "./Template.css"
 import survey from "../../images/template-form.png"
 import blank from "../../images/blank02.png"
 import uuid from "react-uuid"
-import { useHistory, withRouter } from "react-router-dom"
+import { useNavigate, withRouter } from "react-router-dom"
 
 function Template() {
   
-  const history = useHistory();
+  const Navigate = useNavigate();
 
 
   const createForm = () => {
     const id_ = uuid();
 
-    history.push("/form/" + id_)
+    Navigate("/form/" + id_)
 
   }
 
