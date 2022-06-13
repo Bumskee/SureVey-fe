@@ -1,5 +1,5 @@
 import React, {useRef, useState} from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import './Register.css';
 import Camera from './Camera'
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
@@ -7,16 +7,18 @@ import { nodeflux_auth, nodefluxFaceMatch } from "../nodeflux/nodeflux"
 
 const Register = () => {
 
-    const videoRef = useRef(null);
-    const photoRef = useRef(null);
+    // credentials stuff
     const [base64, setBase64] = useState(null);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    
+    const [photoValid, setPhotoValid] = useState(false);
 
+    // functionality stuff
+    const photoRef = useRef(null);
     const [hasPhoto, setHasPhoto] = useState(false);
-    const history = useHistory();
+    const videoRef = useRef(null);
     const [openCam, setOpenCam] = useState(false);
+    const Navigate = useNavigate();
 
     const getVideo = () => {
         navigator.mediaDevices.getUserMedia({
@@ -66,6 +68,7 @@ const Register = () => {
     const savePhoto = () => {
         setOpenCam(false);
         setHasPhoto(false);
+        loopFaces();
     }
 
     const checkFace = async (face1, face2) => {
@@ -99,7 +102,41 @@ const Register = () => {
             }
         }
 
-        await loop().then(() => {console.log(res)});
+        await loop().then(() => {return res});
+    }
+
+    const getUsers = async () => {
+        return await fetch("https://surevey-backend.herokuapp.com/api/users/")
+        .then(response => {return response.json()})
+        .then(data=>{
+        return data;
+        });
+    }
+
+    const loopFaces = async () => {
+        let users = await getUsers();
+        // when there are no face in the database
+        if (users.length === 0) {
+            alert("Face is valid.")
+            setPhotoValid(true);
+        }
+        // when there are face on the databse
+        else {
+            // checkface the taken picture with every image in the database
+            let unique = true;
+            {users.map(user=>{
+                if (checkFace(base64, user.image)) {
+                    alert("face exists in the database")
+                    setPhotoValid(false);
+                    unique = false;
+                }
+            })}
+            // if the face is unique, say to the user that their photo is unique
+            if (unique) {
+                alert("Face is unique");
+                setPhotoValid(true);
+            }
+        }
     }
 
     const register = () => {
@@ -119,7 +156,7 @@ const Register = () => {
             .then( res => res.json())
             .then(
                 () => {
-                    history.push("/");
+                    Navigate("/");
                 }
             ).catch( error => console.error(error))    
         }
@@ -129,8 +166,13 @@ const Register = () => {
         
     }
 
-    const noPic = () => {
-        alert("Please take a picture of your face first.");
+    const pictureAlert = () => {
+        if (base64) {
+            alert("Your photo is not valid.");
+        }
+        else {
+            alert("Please take a picture first.")
+        }
     }
 
     const passwordChanged = event => {
@@ -162,8 +204,8 @@ const Register = () => {
                     <label>Password</label>
                 </div>
                 <div className="register-cam">
-                <button className={base64 ? "open_cam_button_has_photo" : "open_cam_button"} onClick={cam_button_clicked}><CameraAltIcon style={{ color: "white" }} /></button>
-                    <button className="register_button" onClick={base64 ? register : noPic}>Register</button>
+                <button className={photoValid ? "open_cam_button_has_photo" : "open_cam_button"} onClick={cam_button_clicked}><CameraAltIcon style={{ color: "white" }} /></button>
+                <button className="register_button" onClick={photoValid ? register : pictureAlert}>Register</button>
                 </div>
             </div>
         </div> 

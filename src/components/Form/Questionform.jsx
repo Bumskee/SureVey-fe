@@ -30,12 +30,12 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import { DragDropContext } from "react-beautiful-dnd";
 import { Droppable } from "react-beautiful-dnd";
 import { Draggable } from "react-beautiful-dnd";
-import { useHistory, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useStateValue } from "../StateProvider";
 import { actionTypes } from "../reducer";
 
 function Questionform() {
-  const history = useHistory();
+  const Navigate = useNavigate();
 
   let { id } = useParams();
   const [{}, dispatch] = useStateValue();
@@ -349,7 +349,7 @@ function Questionform() {
     // save before view
     submitToDB();
 
-    history.push("/response");
+    Navigate("/response");
   }
 
   function newQuestion() {

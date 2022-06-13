@@ -1,16 +1,15 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import './Login.css';
 
-const Login = ({setIsAuth}) => {
-    const history = useHistory();
+const Login = () => {
+    const Navigate = useNavigate();
     const state = {
         credentials: {username: '', password: '', email: ''},
     }
 
     const userLogin = () => {
         localStorage.setItem("isAuth", true);
-        setIsAuth(true);
       }
 
     const login = () => {
@@ -24,7 +23,7 @@ const Login = ({setIsAuth}) => {
             data => { 
                if (data.token) {
                 userLogin();
-                history.push("/");
+                Navigate("/");
                } 
             }
         )
@@ -32,7 +31,7 @@ const Login = ({setIsAuth}) => {
     }
 
     const registerButton = () => {
-        history.push("/register");
+        Navigate("/register");
     }
 
     const inputChanged = event => {
