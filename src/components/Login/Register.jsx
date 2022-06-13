@@ -1,5 +1,5 @@
 import React, {useRef, useState} from "react";
-import { useNavigate } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import './Register.css';
 import Camera from './Camera'
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
@@ -15,7 +15,7 @@ const Register = () => {
     
 
     const [hasPhoto, setHasPhoto] = useState(false);
-    const Navigate = useNavigate();
+    const history = useHistory();
     const [openCam, setOpenCam] = useState(false);
 
     const getVideo = () => {
@@ -118,7 +118,7 @@ const Register = () => {
         .then( res => res.json())
         .then(
             () => {
-                Navigate("/");
+                history.push("/");
             }
         ).catch( error => console.error(error))
     }

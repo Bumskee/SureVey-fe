@@ -1,12 +1,12 @@
 import { ArrowBack, Check } from '@mui/icons-material'
 import { Button, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import { useStateValue } from '../StateProvider'
 import "./UserForm.css"
 
 function UserForm() {
-  const navigate = useNavigate()
+  const history = useHistory()
   var quest = [];
   var posted_answer = [];
   
@@ -71,7 +71,7 @@ function UserForm() {
               variant='contianed'
               color='primary'
               onClick={()=> {
-                navigate(-1)
+                history.goBack();
               }}
               style={{ fontSize: "14px" }}
             >

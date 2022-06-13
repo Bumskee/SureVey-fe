@@ -30,12 +30,12 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import { DragDropContext } from "react-beautiful-dnd";
 import { Droppable } from "react-beautiful-dnd";
 import { Draggable } from "react-beautiful-dnd";
-import { useNavigate, useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { useStateValue } from "../StateProvider";
 import { actionTypes } from "../reducer";
 
 function Questionform() {
-  const navigate = useNavigate();
+  const history = useHistory();
 
   let { id } = useParams();
   const [{}, dispatch] = useStateValue();
@@ -63,7 +63,7 @@ function Questionform() {
   useEffect(() => {
     async function data_adding() {
       axios
-        .get(`http://127.0.0.1:8000/api/form/${id}`, {
+        .get(`https://surevey-backend.herokuapp.com/api/form/${id}`, {
           headers: {
             "Content-Type": "application/json",
           },
@@ -296,12 +296,13 @@ function Questionform() {
       console.log(id);
       console.log(documentName);
       axios.post(
-        `http://127.0.0.1:8000/api/form/${id}`,
+        `https://surevey-backend.herokuapp.com/api/form/${id}`,
         {
           DocumentID: id,
           DocumentName: documentName,
           DocumentDesc: documentDesc,
           DocumentQuests: questions,
+          // Creator: 
         },
         {
           headers: {
@@ -312,12 +313,13 @@ function Questionform() {
       setNew(false);
     } else {
       axios.put(
-        `http://127.0.0.1:8000/api/form/${id}`,
+        `https://surevey-backend.herokuapp.com/api/form/${id}`,
         {
           DocumentID: id,
           DocumentName: documentName,
           DocumentDesc: documentDesc,
           DocumentQuests: questions,
+          // Creator: 
         },
         {
           headers: {
@@ -347,7 +349,7 @@ function Questionform() {
     // save before view
     submitToDB();
 
-    navigate("/response");
+    history.push("/response");
   }
 
   function newQuestion() {

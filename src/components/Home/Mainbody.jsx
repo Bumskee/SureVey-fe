@@ -1,26 +1,26 @@
 import React, { useState, useEffect } from 'react'
 import "./Mainbody.css"
-import { useNavigate } from "react-router-dom";
+import { useHistory, withRouter } from "react-router-dom";
 import data from "../../data/mock-data.json"
 
 import axios from "axios"
 import { Button } from '@mui/material'
 import { Delete, DeleteOutline, Edit, EditOutlined } from '@mui/icons-material';
 
-export default function Mainbody() {
-  const Navigate = useNavigate()
+function Mainbody() {
+  const history = useHistory()
   const [forms, setForms] = useState(data)
 
   async function allForms() {
     // GET
-    var request = await axios.get("http://127.0.0.1:8000/api/get_all_forms")
+    var request = await axios.get("https://surevey-backend.herokuapp.com/api/get_all_forms")
     let filename = request.data;
     setForms(filename)
     // console.log(filename[0].DocumentID)
   }
 
   function navigateTo(id) {
-    Navigate("/form/" + id)
+    history.push("/form/" + id)
     console.log(id)
   }
 
@@ -29,7 +29,7 @@ export default function Mainbody() {
   }, [])
 
   function removeDoc(id) {
-    axios.delete(`http://127.0.0.1:8000/form/${id}`, {
+    axios.delete(`https://surevey-backend.herokuapp.com/form/${id}`, {
       headers: {
         "Content-Type": "application/json",
       },
@@ -79,3 +79,5 @@ export default function Mainbody() {
     </div>
   )
 }
+
+export default Mainbody;
