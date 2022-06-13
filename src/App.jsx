@@ -8,6 +8,7 @@ import "./App.css";
 import CenterTabs from "./components/Form/Tabs";
 import Questionform from "./components/Form/Questionform";
 import UserForm from "./components/UserForm/UserForm";
+import ViewForm from "./components/ViewForm/ViewForm"
 import { useNavigate } from "react-router-dom";
 import Submit from "./components/UserForm/Submit";
 
@@ -56,7 +57,7 @@ const Root = () => {
             )
           } />
 
-        <Route path="/response" element={<UserForm />} />
+        <Route path="/response" element={<ViewForm />} />
         <Route path="/register" element={<Register />} />
         <Route path="/question_form/:id" element =
           {localStorage.getItem("isAuth") ? (
