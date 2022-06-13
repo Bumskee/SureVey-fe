@@ -5,7 +5,7 @@ import data from "../../data/mock-data.json"
 
 import axios from "axios"
 import { Button } from '@mui/material'
-import { DeleteOutline, DocumentScannerTwoTone, Edit } from '@mui/icons-material';
+import { DeleteOutline, DocumentScannerTwoTone, Edit, Link } from '@mui/icons-material';
 
 function Mainbody() {
   const Navigate = useNavigate()
@@ -78,6 +78,7 @@ function Mainbody() {
                 <td>
                   <Edit type="button" onClick={()=>navigateTo(form.DocumentID)} style={ {margin: 1, marginRight: 4, paddingLeft: 20 } } />
                   <DeleteOutline type="button" onClick={()=>removeDoc(form.DocumentID)} style={ {margin: 1, paddingLeft: 20} } />
+                  <Link type="button" onClick={() => alert(`Here is your link https://sure-vey-fe.vercel.app/question_form/${form.DocumentID}`)} style={ {margin: 1, paddingLeft: 20} }/>
                 </td>
               </tr>
               ))}
