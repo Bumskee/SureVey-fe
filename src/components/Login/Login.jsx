@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import './Login.css';
 
-const Login = ({setIsAuth}) => {
+const Login = () => {
     const Navigate = useNavigate();
     const state = {
         credentials: {username: '', password: '', email: ''},
@@ -10,7 +10,6 @@ const Login = ({setIsAuth}) => {
 
     const userLogin = () => {
         localStorage.setItem("isAuth", true);
-        setIsAuth(true);
       }
 
     const login = () => {

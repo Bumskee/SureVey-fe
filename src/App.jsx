@@ -14,9 +14,8 @@ import { useNavigate } from "react-router-dom";
 // const App = () => {
 const Root = () => {
   const Navigate = useNavigate();
-  const [isAuth, setIsAuth] = useState(false);
   const signOut = () => {
-    setIsAuth(false);
+    localStorage.clear();
     Navigate("/login");
   }
 
@@ -35,32 +34,32 @@ const Root = () => {
             </Link>
           )} */}
 
-        {isAuth ? <button className = 'astext' onClick={signOut}>Logout</button> : <Link className="nav_text" to="/login">Login</Link>}
-        {!isAuth ? <Link className="nav_text" to="/login">Auth_Test</Link> : <Link className="nav_text" to="/test">Auth_Test</Link>}
+        {localStorage.getItem("isAuth") ? <button className = 'astext' onClick={signOut}>Logout</button> : <Link className="nav_text" to="/login">Login</Link>}
+        {!localStorage.getItem("isAuth") ? <Link className="nav_text" to="/login">Auth_Test</Link> : <Link className="nav_text" to="/test">Auth_Test</Link>}
       </nav>
       <Routes>
-        <Route path="/login" element={<Login setIsAuth={setIsAuth}/>} />
+        <Route path="/login" element={<Login/>} />
 
         <Route path="/account"
-          element= {isAuth ? (
+          element= {localStorage.getItem("isAuth") ? (
             <div>
               <Template />
               <Mainbody />
             </div>
           ) : (
-            <Login setIsAuth={setIsAuth}/>
+            <Login />
           )}/>
 
         <Route
           path="/form/:id"
           element = 
-            {isAuth ? (
+            {localStorage.getItem("isAuth") ? (
             <div>
               <CenterTabs />
               <Questionform />
             </div>
             ) : (
-              <Login setIsAuth={setIsAuth} />
+              <Login />
             )
           } />
 
