@@ -122,7 +122,7 @@ const Register = () => {
         const loop = async () => {
             // checkface the taken picture with every image in the database
 
-            for (var i = 0; i < users.length; i++) {
+            for (var i = 0; (i < users.length) && unique; i++) {
                 if (await checkFace(base64, users[i].image)) {
                     alert("Your photo is not valid")
                     setPhotoValid(false)
